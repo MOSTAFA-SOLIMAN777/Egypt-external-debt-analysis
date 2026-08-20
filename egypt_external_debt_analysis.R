@@ -410,6 +410,43 @@ reg_data <- data %>%
 
 model_gdp <- lm(debt_growth ~ gdp_growth, data = reg_data)
 summary(model_gdp)
+       
+# ------------------------------------------------------------
+# 10. Multiple regression: debt growth and macroeconomic factors
+# ------------------------------------------------------------
+
+multiple_reg_data <- data %>%
+  select(
+    year,
+    debt_growth,
+    gdp_growth,
+    inflation,
+    fdi,
+    exports,
+    current_account
+  ) %>%
+  drop_na(
+    debt_growth,
+    gdp_growth,
+    inflation,
+    fdi,
+    exports,
+    current_account
+  )
+
+multiple_model <- lm(
+  debt_growth ~ gdp_growth + inflation + fdi + exports + current_account,
+  data = multiple_reg_data
+)
+
+summary(multiple_model)
+
+# Number of observations used in the model
+nobs(multiple_model)
+
+# Important: this model describes association, not causation. Because both
+# variables are time-series data, residual autocorrelation and stationarity
+# should be checked before drawing stronger econometric conclusions.
 
 # Important: this model describes association, not causation. Because both
 # variables are time-series data, residual autocorrelation and stationarity
